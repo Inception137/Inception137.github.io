@@ -1,0 +1,270 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Cytoscape Graph</title>
+
+    <!-- JSON support for IE (needed to use JS API) -->
+    <script src="CytoScape/js/min/json2.min.js"></script>
+
+    <!-- Flash embedding utility (needed to embed Cytoscape Web) -->
+    <script src="CytoScape/js/min/AC_OETags.min.js"></script>
+
+    <!-- Cytoscape Web JS API (needed to reference org.cytoscapeweb.Visualization) -->
+    <script src="CytoScape/js/min/cytoscapeweb.min.js"></script>
+
+    <script src="jquery.js"></script>
+</head>
+
+<body>
+    
+
+    <div id="text">
+        <form>
+            1st node: <input type="text" id="tb1" name="textbox1" size="30" /><br>
+            2nd node:<input type="text" id="tb2" name="textbox2" size="30" /><br>
+        </form>
+    </div>
+
+    <div>
+        <br><input type="button" id="myButton" value="Draw" width="30" />
+    </div>
+
+    <script> //global variables
+        var i = 0;
+        var networ_json = {
+            dataSchema: {
+                nodes: [{ name: "label", type: "string" },
+                ],
+            },
+            data: {
+                nodes:[],
+                edges:[]
+            }
+        };
+        var div_id = "cytoscapeweb";
+    </script>
+
+    <script>
+        $("#myButton").click(function () {
+            var flag1 = false;
+            var flag2 = false;
+
+            if (networ_json.data.nodes.length == 0)
+            {
+                if (document.getElementById("tb1").value != document.getElementById("tb2").value)
+                {
+                    networ_json.data.nodes.push({ id: i.toString(), label: document.getElementById("tb1").value });
+                    networ_json.data.nodes.push({ id: (i + 1).toString(), label: document.getElementById("tb2").value });
+                    networ_json.data.edges.push({ id: i.toString() + "to" + (i + 1).toString(), target: (i + 1).toString(), source: i.toString(), directed: true });
+                    i += 2;
+                }
+                else
+                {
+                    networ_json.data.nodes.push({ id: i.toString(), label: document.getElementById("tb1").value });
+                    networ_json.data.edges.push({ id: i.toString() + "to" + i.toString(), target: i.toString(), source: i.toString(), directed: true });
+                    i++;
+                }
+                
+            }
+            else
+            {
+                var m, n;
+                for (j = 0; j < networ_json.data.nodes.length; j++)
+                {
+                    if (document.getElementById("tb1").value == networ_json.data.nodes[j].label)
+                    {
+                        flag1 = true;
+                        m = j;
+                        break;
+                    }
+                }
+                
+                for (j = 0; j < networ_json.data.nodes.length; j++)
+                {
+                    if (document.getElementById("tb2").value == networ_json.data.nodes[j].label)
+                    {
+                        flag2 = true;
+                        n = j;
+                        break;
+                    }
+                }
+
+                
+                var flag3 = true;
+                var error = false;
+
+                if (flag1)
+                {
+                    if (flag2)
+                    {
+                        for (j = 0; j < networ_json.data.edges.length; j++)
+                        {
+                            if (((networ_json.data.edges[j].target == networ_json.data.nodes[m].id) & (networ_json.data.edges[j].source == networ_json.data.nodes[n].id)) |
+                                ((networ_json.data.edges[j].source == networ_json.data.nodes[m].id) & (networ_json.data.edges[j].target == networ_json.data.nodes[n].id)))
+                            {
+                                alert("Already exists!");
+                                error = true;
+                                flag3 = false;
+                                break;
+                            }
+                        }
+
+                        if (flag3)
+                        {
+                            networ_json.data.edges.push({ id: networ_json.data.nodes[m].id + "to" + networ_json.data.nodes[n].id, target: networ_json.data.nodes[n].id, source: networ_json.data.nodes[m].id, directed: true });
+                        }
+
+                    }
+                    else
+                    {
+                        networ_json.data.nodes.push({ id: i.toString(), label: document.getElementById("tb2").value });
+                        networ_json.data.edges.push({ id: networ_json.data.nodes[m].id + "to" + i.toString(), target: i.toString(), source: networ_json.data.nodes[m].id, directed: true });
+                        i++;
+                    }
+                }
+                else
+                {
+                    if (flag2)
+                    {
+                        networ_json.data.nodes.push({ id: i.toString(), label: document.getElementById("tb1").value });
+                        networ_json.data.edges.push({ id: i.toString() + "to" + networ_json.data.nodes[n].id, target: networ_json.data.nodes[n].id, source: i.toString(), directed: true });
+                        i++;
+                    }
+                    else
+                    {
+                        networ_json.data.nodes.push({ id: i.toString(), label: document.getElementById("tb1").value });
+                        networ_json.data.nodes.push({ id: (i + 1).toString(), label: document.getElementById("tb2").value });
+                        networ_json.data.edges.push({ id: i.toString() + "to" + (i + 1).toString(), target: (i + 1).toString(), source: i.toString(), directed: true });
+                        i += 2;
+                    }
+                }
+            }
+           
+            var visual_style = {
+                nodes: {
+                    shape: "RECTANGLE",
+                    height: { defaultValue: 30 },
+                    width: { defaultValue: 50 },
+                },
+                edges: {
+                    targetArrowShape: { defaultValue: "ARROW" },
+                }
+            };
+            
+            var options = {
+                swfPath: "CytoScape/swf/CytoscapeWeb",
+                flashInstallerPath: "CytoScape/swf/playerProductInstall"
+            };
+
+            
+            var vis = new org.cytoscapeweb.Visualization(div_id, options);
+
+            vis.ready(function () {
+
+                vis.addListener("click", "nodes", function (event) {
+                    handle_click(event);
+                })
+                .addListener("click", "edges", function (event) {
+                    handle_click(event);
+                });
+
+                function handle_click(event) {
+                    var target = event.target;
+
+                    clear();
+                    print("group = " + event.group);
+                    for (var i in target.data) {
+                        var variable_name = i;
+                        var variable_value = target.data[i];
+                        print(variable_name + " = " + variable_value);
+                    }
+                }
+
+                function clear() {
+                    document.getElementById("note").innerHTML = "";
+                }
+
+                function print(msg) {
+                    document.getElementById("note").innerHTML += "<p>" + msg + "</p>";
+                }
+            });
+
+            var draw_options = {
+                panZoomControlVisible: false,
+                network: networ_json,
+                visualStyle: visual_style,
+            };
+
+            if (!error)
+                vis.draw(draw_options);
+
+
+            //alert(document.getElementById("tb").value);
+        });
+    </script>
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Helvetica, Arial, Verdana, sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            line-height: 1.5;
+            color: #000000;
+            font-size: 14px;
+        }
+        /* The Cytoscape Web container must have its dimensions set. */
+        #cytoscapeweb {
+            width: 100%;
+            height: 80%;
+        }
+
+        #note {
+            width: 100%;
+            height: 20%;
+            background-color: #f0f0f0;
+            overflow: auto;
+        }
+
+        p {
+            padding: 0 0.5em;
+            margin: 0;
+        }
+
+            p:first-child {
+                padding-top: 0.5em;
+            }
+        /* The Cytoscape Web container must have its dimensions set. */
+        /*html, body {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        #cytoscapeweb {
+            width: 100%;
+            height: 100%;
+        }*/
+    </style>
+   
+    <div id="cytoscapeweb">
+        <br>Ready to draw!
+    </div>
+    <div id="note">
+        <p>Click nodes or edges.</p>
+    </div>
+</body>
+
+</html>

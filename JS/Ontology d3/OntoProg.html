@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="libs/d3/d3.min.js"></script>
+	<script src="libs/jquery.js"></script>
+</head>
+
+<style>
+    .node {
+        stroke: black;
+        stroke-width: 1.5px;
+    }
+
+        .node .selected {
+            stroke: blue;
+        }
+
+    .link {
+        stroke: black;
+    }
+
+    .brush .extent {
+        fill-opacity: .1;
+        stroke: black;
+        shape-rendering: crispEdges;
+    }
+</style>
+
+<body>
+   <!-- <div id="text">
+        <form>
+            1st node: <input type="text" id="tb1" name="textbox1" size="30" /><br>
+            2nd node:<input type="text" id="tb2" name="textbox2" size="30" /><br>
+        </form>
+    </div>
+
+    <div>
+        <br><input type="button" id="myButton" value="Draw" width="30" />
+    </div>-->
+   
+    <div align='center' id="d3_selectable_force_directed_graph"></div>
+	<script src="libs/d3/d3.min.js"></script>
+    <script src="sources/graph.json"></script>
+    <script src="sources/plot.js"></script>
+	<script>selectableForceDirectedGraph();</script>
+     
+</body>
+</html>

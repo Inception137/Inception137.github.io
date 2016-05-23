@@ -1,0 +1,94 @@
+{
+  "nodes": [
+    {
+      "id": 1,
+      "label": "1",
+      "weight": 1
+    },
+
+    {
+      "id": 2,
+      "label": "2",
+      "weight": 2
+    },
+
+    {
+      "id": 3,
+      "label": "3",
+      "weight": 3
+    },
+
+    {
+      "id": 4,
+      "label": "4",
+      "weight": 4
+    }
+  ],
+
+  "edges": [
+    {
+      "directed": true,
+      "id": "1to2",
+      "label": "1to2",
+      "source": "1",
+      "target": "2",
+      "weight": "5"
+    },
+
+    {
+      "directed": true,
+      "id": "1to3",
+      "label": "1to3",
+      "source": "1",
+      "target": "3"
+        "weight": "5"
+    },
+
+    {
+      "directed": true,
+      "id": "1to4",
+      "label": "1to4",
+      "source": "1",
+      "target": "4",
+      "weight": "5"
+    },
+
+    {
+      "directed": true,
+      "id": "3to2",
+      "label": "3to2",
+      "source": "3",
+      "target": "2",
+      "weight": "5"
+    },
+
+    {
+      "directed": true,
+      "id": "4to3",
+      "label": "4to3",
+      "source": "4",
+      "target": "3",
+      "weight": "5"
+    },
+
+    {
+      "directed": true,
+      "id": "4to2",
+      "label": "4to2",
+      "source": "4",
+      "target": "2",
+      "weight": "5"
+    },
+
+    {
+      "directed": true,
+      "id": "2to2",
+      "label": "2to2",
+      "source": "2",
+      "target": "2",
+      "weight": "5"
+    },
+  ]
+
+  
+}

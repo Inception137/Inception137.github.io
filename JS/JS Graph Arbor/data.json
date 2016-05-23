@@ -1,0 +1,28 @@
+{
+  "nodes": 
+  [
+    { "name": "node_1", "color": "blue", "shape": "dot", "label": "Node 1" },
+    { "name": "node_2", "color": "red", "shape": "dot", "label": "Node 2" },
+    { "name": "node_3", "color": "gray", "shape": "dot", "label": "Node 3" },
+    { "name": "node_4", "color": "black", "shape": "dot", "label": "Node 4" },
+    { "name": "node_5", "color": "brown", "shape": "dot", "label": "Node 5" },
+    { "name": "node_6", "color": "gold", "shape": "dot", "label": "Node 6" },
+    { "name": "node_7", "color": "green", "shape": "dot", "label": "Node 7" },
+    { "name": "node_8", "color": "indigo", "shape": "dot", "label": "Node 8" },
+    { "name": "node_9", "color": "violet", "shape": "dot", "label": "Node 9" },
+    { "name": "node_10", "color": "cyan", "shape": "dot", "label": "Node 10" }
+  ],
+"edges": [
+  {"src": "node_3", "dest": "node_2"},
+  {"src": "node_5", "dest": "node_3"},
+  {"src": "node_8", "dest": "node_7"},
+  {"src": "node_1", "dest": "node_4"},
+  {"src": "node_7", "dest": "node_5"},
+  {"src": "node_3", "dest": "node_9"},
+  {"src": "node_2", "dest": "node_4"},
+  {"src": "node_6", "dest": "node_5"},
+  {"src": "node_9", "dest": "node_1"},
+  {"src": "node_10", "dest": "node_2"},
+  {"src": "node_1", "dest": "node_10"}
+]
+}

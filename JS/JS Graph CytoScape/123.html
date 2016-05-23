@@ -1,0 +1,22 @@
+<html>
+<head>
+	<title>test</title>
+	<script src="jquery.js"></script>
+</head>
+<body>
+	
+
+	<div id="text">
+		Input:<input type="text" id="tb" name="textbox1" size="30" />
+	</div>
+	<div>
+		<input type="button" id="myButton" value="button" />
+	</div>
+
+	<script>
+		$("#myButton").click(function () {
+			alert(document.getElementById("tb").value);
+		});
+	</script>
+</body>
+</html>
