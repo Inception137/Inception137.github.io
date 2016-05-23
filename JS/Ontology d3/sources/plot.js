@@ -159,24 +159,41 @@ function selectableForceDirectedGraph() {
 	  return result;
 	}
 	
+	//dont work with graph1
 	function projection(name, graph) {
         var outNodes = [];
         var outLinks = [];
+		var node;
+		var link;
         for (i = 0; i < graph.nodes.length; i++)
             if (name == graph.nodes[i].label) 
 			{
-                outNodes.push(graph.nodes[i]);
+				node=graph.nodes[i];
+				node.id=0;
+                outNodes.push(node);
                 break;
             }
 
         for (i = 0; i < graph.links.length; i++) {
-            if (graph.links[i].target == outNodes[0].label) {
-                outNodes.push(graph.nodes[parseInt(graph.links[i].source)]);
+            if (graph.links[i].target == outNodes[0].label) 
+			{
+				node=graph.nodes[parseInt(graph.links[i].source)];
+				node.id=outNodes.length;
+                outNodes.push(node);
+				
+				link=graph.links[i];
+				link.id=outLinks.length;
                 outLinks.push(graph.links[i]);
             }
 
-            if (graph.links[i].source == outNodes[0].label) {
-                outNodes.push(graph.nodes[parseInt(graph.links[i].target)]); //NaN
+            if (graph.links[i].source == outNodes[0].label) 
+			{
+				node=graph.nodes[parseInt(graph.links[i].target)];
+				node.id=outNodes.length;
+				outNodes.push(node);
+				
+				link=graph.links[i];
+				link.id=outLinks.length;
                 outLinks.push(graph.links[i]);
             }
         }
@@ -185,10 +202,10 @@ function selectableForceDirectedGraph() {
 			links: outLinks}
         return (outgraph);
     }
-	
+		
 	var projgraph = {
-		nodes: projection("0", graph1).nodes, 
-		links: projection("0", graph1).links};
+		nodes: projection("0", graph).nodes, 
+		links: projection("0", graph).links};	
 	
 	var uniongraph ={
 		nodes: union(graph, graph1).nodes, 
@@ -197,8 +214,9 @@ function selectableForceDirectedGraph() {
 	var intersectedgraph = {
 		nodes: intersect(graph, graph1).nodes, 
 		links: intersect(graph, graph1).links};
-	
-	DrawGraph(intersectedgraph);
+
+	DrawGraph(projgraph);
+	//DrawGraph(graph);
     
 
     function DrawGraph(graph) {                                     /////////////////////////
