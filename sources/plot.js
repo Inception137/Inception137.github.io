@@ -137,6 +137,7 @@ function selectableForceDirectedGraph() {
 		  for (var j = 0; j < result.length; j++) { // ищем, был ли он уже?
 			if (result[j].label == str) continue nextInput; // если да, то следующий
 		  }
+		  nodes[i].id=result.length;
 		  result.push(nodes[i]);
 		}
 
@@ -153,6 +154,7 @@ function selectableForceDirectedGraph() {
 		  for (var j = 0; j < result.length; j++) { // ищем, был ли он уже?
 			if ((result[j].source == str1)&(result[j].target == str2)) continue nextInput; // если да, то следующий
 		  }
+		  links[i].id=result.length;
 		  result.push(links[i]);
 		}
 
@@ -160,7 +162,7 @@ function selectableForceDirectedGraph() {
 	}
 	
 	//dont work with graph1
-	function projection(name, graph) {
+	/*function projection(name, graph) {
         var outNodes = [];
         var outLinks = [];
 		var node;
@@ -205,7 +207,7 @@ function selectableForceDirectedGraph() {
 		
 	var projgraph = {
 		nodes: projection("0", graph).nodes, 
-		links: projection("0", graph).links};	
+		links: projection("0", graph).links};*/	
 	
 	var uniongraph ={
 		nodes: union(graph, graph1).nodes, 
@@ -215,7 +217,7 @@ function selectableForceDirectedGraph() {
 		nodes: intersect(graph, graph1).nodes, 
 		links: intersect(graph, graph1).links};
 
-	DrawGraph(projgraph);
+	DrawGraph(graph1);
 	//DrawGraph(graph);
     
 
@@ -253,8 +255,8 @@ function selectableForceDirectedGraph() {
                 .attr("x2", function (d) { return d.target.x; })
                 .attr("y2", function (d) { return d.target.y; });
 
-            node.attr('x', function (d) { return Math.round(d.x - (40 / 2)); })
-                .attr('y', function (d) { return Math.round(d.y - (20 / 2)); });
+            node.attr('x', function (d) { return Math.round(d.x - (70 / 2)); })
+                .attr('y', function (d) { return Math.round(d.y - (30 / 2)); });
 
             text.attr('x', function (d) { return Math.round(d.x); })
                 .attr('y', function (d) { return Math.round(d.y + (20 / 4)); });
@@ -294,10 +296,10 @@ function selectableForceDirectedGraph() {
             .attr("y2", function (d) { return d.target.y; });
 
         node = node.data(graph.nodes).enter().append("rect")
-            .attr("width", 40)
-            .attr("height", 20)
-            .attr("x", function (d) { return Math.round(d.x - (40 / 2)); })
-            .attr("y", function (d) { return Math.round(d.y - (20 / 2)); })
+            .attr("width", 70)
+            .attr("height", 30)
+            .attr("x", function (d) { return Math.round(d.x - (70 / 2)); })
+            .attr("y", function (d) { return Math.round(d.y - (30 / 2)); })
             .on("click", function (d) {
                 if (d3.event.defaultPrevented) return;
 
